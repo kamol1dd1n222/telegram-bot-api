@@ -45,7 +45,15 @@ def send_photo(chat_id: int, photo: str):
     sendmessage_url = f'{BASE_URL}/sendPhoto'
     requests.get(sendmessage_url, params=params)
 
-
+def send_audio(chat_id: int,audio:str):
+    params = {
+        'chat_id': chat_id,
+        'audio':audio,
+    }
+    sendmessage_url = f'{BASE_URL}/sendAudio'
+    requests.get(sendmessage_url,params=params)
+    
+    
 def updater(token: str):
 
     offset = None
@@ -69,7 +77,10 @@ def updater(token: str):
                 elif 'photo' in message:
                     photo = message['photo'][0]
                     send_photo(user['id'], photo['file_id'])
-
+                elif 'audio' in message:
+                    audio = message['audio']
+                    send_audio(user['id'],audio['file_id'])
+                    
             offset = update['update_id'] + 1
 
         sleep(1)
